@@ -13,10 +13,6 @@ class HomeScreenViewModel(
     private val moviesRepository: MoviesRepository,
 ) : ViewModel() {
 
-    companion object {
-        const val TABLE_TYPE = "A"
-    }
-
 //    data class State(
 //        val table: String = EMPTY_STRING,
 //        val no: String = EMPTY_STRING,

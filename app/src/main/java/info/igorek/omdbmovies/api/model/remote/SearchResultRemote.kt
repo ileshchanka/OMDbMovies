@@ -4,13 +4,13 @@ import com.google.gson.annotations.SerializedName
 
 data class SearchResultRemote(
     @SerializedName("Search")
-    val movieResults: List<MovieResult>,
+    val movieResults: List<MovieResultRemote>,
     @SerializedName("totalResults")
     val totalResults: String,
     @SerializedName("Response")
     val response: String,
 ) {
-    data class MovieResult(
+    data class MovieResultRemote(
         @SerializedName("Title")
         val title: String,
         @SerializedName("Year")
