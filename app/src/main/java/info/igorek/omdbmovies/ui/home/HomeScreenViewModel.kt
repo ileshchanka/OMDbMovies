@@ -21,9 +21,9 @@ class HomeScreenViewModel(
     private val _state = MutableStateFlow(State())
     val state: StateFlow<State> = _state
 
-    init {
+    fun onFindButtonPressed(s: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            val item = moviesRepository.search("tron")
+            val item = moviesRepository.search(s)
 
             _state.update {
                 it.copy(

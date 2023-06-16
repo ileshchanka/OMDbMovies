@@ -21,6 +21,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
+import info.igorek.omdbmovies.EMPTY_STRING
 
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
@@ -28,7 +29,7 @@ fun HomeScreen(
     viewModel: HomeScreenViewModel,
 ) {
     val state by viewModel.state.collectAsState()
-    val text = remember { mutableStateOf("") }
+    val text = remember { mutableStateOf(EMPTY_STRING) }
 
     LazyColumn(
         modifier = Modifier
@@ -48,7 +49,7 @@ fun HomeScreen(
             )
             Button(
                 onClick = {
-
+                    viewModel.onFindButtonPressed(text.value)
                 },
                 modifier = Modifier
                     .fillMaxWidth()
@@ -62,6 +63,7 @@ fun HomeScreen(
                 )
             }
         }
+
         items(state.movieList) { movie ->
             Row(
                 verticalAlignment = Alignment.CenterVertically,
@@ -74,7 +76,6 @@ fun HomeScreen(
                     text = movie.title,
                     modifier = Modifier.padding(start = 8.dp),
                 )
-
             }
         }
     }
