@@ -53,7 +53,7 @@ fun HomeScreen(
             )
             Button(
                 onClick = {
-                    viewModel.onFindButtonPressed(text.value)
+                    viewModel.onFindButtonPressed(text.value.trim())
                 },
                 modifier = Modifier
                     .fillMaxWidth()
@@ -72,9 +72,7 @@ fun HomeScreen(
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.clickable {
-
                     navController.navigate("$NAV_DETAILS/${movie.imdbID}")
-
                 }
             ) {
                 GlideImage(

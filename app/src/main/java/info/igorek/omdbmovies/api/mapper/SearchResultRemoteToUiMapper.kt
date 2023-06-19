@@ -10,17 +10,17 @@ class SearchResultRemoteToUiMapper @Inject constructor() {
     fun map(remote: SearchResultRemote): SearchResultUi {
         return with(remote) {
             SearchResultUi(
-                movieResults = movieResults.map { remote ->
+                movieResults = movieResults?.map { remote ->
                     MovieResultUi(
-                        title = remote.title,
-                        year = remote.year,
-                        imdbID = remote.imdbID,
-                        type = remote.type,
-                        poster = remote.poster,
+                        title = remote.title.orEmpty(),
+                        year = remote.year.orEmpty(),
+                        imdbID = remote.imdbID.orEmpty(),
+                        type = remote.type.orEmpty(),
+                        poster = remote.poster.orEmpty(),
                     )
-                },
-                totalResults = totalResults,
-                response = response,
+                }.orEmpty(),
+                totalResults = totalResults.orEmpty(),
+                response = response.orEmpty(),
             )
         }
     }

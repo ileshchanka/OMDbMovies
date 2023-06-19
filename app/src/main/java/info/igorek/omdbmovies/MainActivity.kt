@@ -52,8 +52,11 @@ class MainActivity : ComponentActivity() {
                             arguments = listOf(navArgument(NAV_DETAILS_ID) { type = NavType.StringType })
                         ) {
                             DetailsScreen(
-                                viewModel = viewModel(factory = detailsScreenViewModelFactory),
-                                id = it.arguments?.getString(NAV_DETAILS_ID),
+                                viewModel = viewModel(
+                                    factory = detailsScreenViewModelFactory.create(
+                                        id = it.arguments?.getString(NAV_DETAILS_ID).orEmpty(),
+                                    )
+                                ),
                             )
                         }
                     }

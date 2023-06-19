@@ -42,5 +42,5 @@ interface AppComponent {
     }
 
     fun getHomeScreenViewModelFactory(): HomeScreenViewModelFactory
-    fun getDetailsScreenViewModelFactory(): DetailsScreenViewModelFactory
+    fun getDetailsScreenViewModelFactory(): DetailsScreenViewModelFactory.AssistFactory
 }
