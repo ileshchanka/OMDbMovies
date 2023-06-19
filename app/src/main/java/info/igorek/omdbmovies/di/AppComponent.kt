@@ -3,6 +3,7 @@ package info.igorek.omdbmovies.di
 import android.content.Context
 import dagger.BindsInstance
 import dagger.Component
+import info.igorek.omdbmovies.ui.details.DetailsScreenViewModelFactory
 import info.igorek.omdbmovies.ui.home.HomeScreenViewModelFactory
 import javax.inject.Singleton
 
@@ -41,4 +42,5 @@ interface AppComponent {
     }
 
     fun getHomeScreenViewModelFactory(): HomeScreenViewModelFactory
+    fun getDetailsScreenViewModelFactory(): DetailsScreenViewModelFactory
 }
