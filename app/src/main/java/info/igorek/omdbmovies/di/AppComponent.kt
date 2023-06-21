@@ -11,6 +11,7 @@ import javax.inject.Singleton
     modules = [
         NetworkModule::class,
         RepositoryModule::class,
+        DbModule::class,
     ],
 )
 @Singleton
