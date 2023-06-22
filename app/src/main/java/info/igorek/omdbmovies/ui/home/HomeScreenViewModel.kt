@@ -3,7 +3,6 @@ package info.igorek.omdbmovies.ui.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import info.igorek.omdbmovies.NetworkStateProvider
-import info.igorek.omdbmovies.NetworkStatusState
 import info.igorek.omdbmovies.api.model.ui.SearchResultUi.MovieResultUi
 import info.igorek.omdbmovies.api.repository.MoviesRepository
 import kotlinx.coroutines.Dispatchers
@@ -28,21 +27,17 @@ class HomeScreenViewModel @Inject constructor(
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
-            networkStateProvider.stateFlow.collect { networkState ->
-                if (networkState is NetworkStatusState.Disconnected) {
+            networkStateProvider.stateFlow.collect { isConnectionAvailable ->
+                if (isConnectionAvailable.not()) {
                     viewModelScope.launch(Dispatchers.IO) {
                         _state.update {
-                            it.copy(
-                                movieList = moviesRepository.getFromDB(),
-                            )
+                            it.copy(movieList = moviesRepository.getFromDB())
                         }
                     }
                 }
 
                 _state.update {
-                    it.copy(
-                        isConnectionAvailable = networkState is NetworkStatusState.Connected,
-                    )
+                    it.copy(isConnectionAvailable = isConnectionAvailable)
                 }
             }
         }
@@ -51,9 +46,7 @@ class HomeScreenViewModel @Inject constructor(
     fun onFindButtonPressed(s: String) {
         viewModelScope.launch(Dispatchers.IO) {
             _state.update {
-                it.copy(
-                    movieList = moviesRepository.search(s),
-                )
+                it.copy(movieList = moviesRepository.search(s))
             }
         }
     }
