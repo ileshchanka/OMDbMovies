@@ -2,6 +2,8 @@ package info.igorek.omdbmovies.ui.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import info.igorek.omdbmovies.NetworkStateProvider
+import info.igorek.omdbmovies.NetworkStatusState
 import info.igorek.omdbmovies.api.model.ui.SearchResultUi.MovieResultUi
 import info.igorek.omdbmovies.api.repository.MoviesRepository
 import kotlinx.coroutines.Dispatchers
@@ -9,13 +11,16 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class HomeScreenViewModel(
+class HomeScreenViewModel @Inject constructor(
     private val moviesRepository: MoviesRepository,
+    private val networkStateProvider: NetworkStateProvider,
 ) : ViewModel() {
 
     data class State(
         val movieList: List<MovieResultUi> = emptyList(),
+        val isConnectionAvailable: Boolean = false,
     )
 
     private val _state = MutableStateFlow(State())
@@ -23,21 +28,31 @@ class HomeScreenViewModel(
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
-            _state.update {
-                it.copy(
-                    movieList = moviesRepository.getFromDB()
-                )
+            networkStateProvider.stateFlow.collect { networkState ->
+                if (networkState is NetworkStatusState.Disconnected) {
+                    viewModelScope.launch(Dispatchers.IO) {
+                        _state.update {
+                            it.copy(
+                                movieList = moviesRepository.getFromDB(),
+                            )
+                        }
+                    }
+                }
+
+                _state.update {
+                    it.copy(
+                        isConnectionAvailable = networkState is NetworkStatusState.Connected,
+                    )
+                }
             }
         }
     }
 
     fun onFindButtonPressed(s: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            val movieList = moviesRepository.search(s)
-
             _state.update {
                 it.copy(
-                    movieList = movieList,
+                    movieList = moviesRepository.search(s),
                 )
             }
         }

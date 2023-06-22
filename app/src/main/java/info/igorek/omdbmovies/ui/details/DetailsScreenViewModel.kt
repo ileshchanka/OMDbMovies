@@ -21,6 +21,7 @@ class DetailsScreenViewModel(
         val title: String = EMPTY_STRING,
         val ratingList: List<RatingUi> = emptyList(),
         val plot: String = EMPTY_STRING,
+        val isDataAvailable: Boolean = false,
     )
 
     private val _state = MutableStateFlow(State())
@@ -30,12 +31,20 @@ class DetailsScreenViewModel(
         viewModelScope.launch(Dispatchers.IO) {
             val item = moviesRepository.getById(id)
 
+            item?.let {
+                _state.update {
+                    it.copy(
+                        poster = item.poster,
+                        title = item.title,
+                        ratingList = item.ratings,
+                        plot = item.plot,
+                    )
+                }
+            }
+
             _state.update {
                 it.copy(
-                    poster = item.poster,
-                    title = item.title,
-                    ratingList = item.ratings,
-                    plot = item.plot,
+                    isDataAvailable = item != null,
                 )
             }
         }

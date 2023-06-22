@@ -8,12 +8,13 @@ import info.igorek.omdbmovies.api.model.ui.SearchResultUi.MovieResultUi
 
 @Dao
 interface MoviesDao {
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertAll(rateList: List<MovieResultUi>)
+    fun insertAll(moviesList: List<MovieResultUi>)
 
     @Query("DELETE FROM movies")
-    fun deleteAll()
+    fun deleteAllMovies()
 
     @Query("SELECT * FROM movies")
-    fun getAll(): List<MovieResultUi>
+    fun getAllMovies(): List<MovieResultUi>
 }

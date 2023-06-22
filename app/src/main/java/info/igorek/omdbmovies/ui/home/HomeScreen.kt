@@ -68,21 +68,37 @@ fun HomeScreen(
             }
         }
 
-        items(state.movieList) { movie ->
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.clickable {
-                    navController.navigate("$NAV_DETAILS/${movie.imdbID}")
-                }
-            ) {
-                GlideImage(
-                    model = movie.poster,
-                    contentDescription = "${movie.title} Poster",
-                )
+        if (state.movieList.isEmpty()) {
+            item {
                 Text(
-                    text = movie.title,
-                    modifier = Modifier.padding(start = 8.dp),
+                    text = if (state.isConnectionAvailable) {
+                        "Type some search query"
+                    } else {
+                        "No connection"
+                    }
                 )
+            }
+        } else {
+            items(state.movieList) { movie ->
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable {
+                            if (state.isConnectionAvailable) {
+                                navController.navigate("$NAV_DETAILS/${movie.imdbID}")
+                            }
+                        }
+                ) {
+                    GlideImage(
+                        model = movie.poster,
+                        contentDescription = "${movie.title} Poster",
+                    )
+                    Text(
+                        text = movie.title,
+                        modifier = Modifier.padding(start = 8.dp),
+                    )
+                }
             }
         }
     }
