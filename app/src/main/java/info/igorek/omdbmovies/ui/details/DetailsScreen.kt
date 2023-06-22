@@ -15,10 +15,12 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
+import info.igorek.omdbmovies.R
 
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
@@ -34,7 +36,7 @@ fun DetailsScreen(
         item {
             GlideImage(
                 model = state.poster,
-                contentDescription = "${state.title} Poster",
+                contentDescription = stringResource(R.string.title_poster, state.title),
                 modifier = Modifier.height(300.dp),
             )
             Text(

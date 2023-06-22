@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">OMDb Movies</string>
+    <string name="find">Find</string>
+    <string name="type_some_search_query">Type some search query</string>
+    <string name="no_connection">No connection</string>
+    <string name="title_poster">%s Poster</string>
 </resources>

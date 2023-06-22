@@ -18,6 +18,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -25,6 +26,7 @@ import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import info.igorek.omdbmovies.EMPTY_STRING
 import info.igorek.omdbmovies.NAV_DETAILS
+import info.igorek.omdbmovies.R
 
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
@@ -60,7 +62,7 @@ fun HomeScreen(
                     .padding(bottom = 8.dp),
             ) {
                 Text(
-                    text = "Find",
+                    text = stringResource(R.string.find),
                     modifier = Modifier
                         .fillMaxSize(),
                     textAlign = TextAlign.Center,
@@ -72,9 +74,9 @@ fun HomeScreen(
             item {
                 Text(
                     text = if (state.isConnectionAvailable) {
-                        "Type some search query"
+                        stringResource(R.string.type_some_search_query)
                     } else {
-                        "No connection"
+                        stringResource(R.string.no_connection)
                     }
                 )
             }
@@ -92,7 +94,7 @@ fun HomeScreen(
                 ) {
                     GlideImage(
                         model = movie.poster,
-                        contentDescription = "${movie.title} Poster",
+                        contentDescription = stringResource(R.string.title_poster, movie.title),
                     )
                     Text(
                         text = movie.title,
